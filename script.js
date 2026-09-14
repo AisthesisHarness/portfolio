@@ -26,7 +26,12 @@
     if (bootScene) {
       bootScene.dataset.phase = state.phase;
       bootScene.style.setProperty("--boot-depth", `${state.depth * 780}px`);
-      bootScene.style.setProperty("--boot-car-z-offset", `${state.carProgress * -5000}px`);
+      // The corridor sits at a fixed local Z of -300px (see .boot-corridor in styles.css).
+      // The car's local Z is expressed relative to that so it is guaranteed to sit in
+      // front of the corridor at reveal (carProgress 0) and recede behind it — vanishing
+      // into the corridor near the end of the shrink — rather than the two independently
+      // drifting offsets crossing over unpredictably as depth changes.
+      bootScene.style.setProperty("--boot-car-z-offset", `${-150 - state.carProgress * 500}px`);
     }
     bootWheel?.classList.toggle("is-powered", state.lampsLit > 0);
 

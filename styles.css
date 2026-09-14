@@ -268,11 +268,7 @@ body.is-ready .boot {
 
 .boot-car {
   width: min(42vw, 440px);
-  transform: translate3d(
-    -50%,
-    -43%,
-    calc(-650px + var(--boot-car-z-offset))
-  );
+  transform: translate3d(-50%, -43%, var(--boot-car-z-offset));
   will-change: transform;
 }
 
