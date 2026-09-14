@@ -6,15 +6,31 @@
   const previewParams = new URLSearchParams(window.location.search);
   const automatedPreview = previewParams.has("preview");
 
-  // Short system-style intro. It never blocks the page for more than a moment.
+  // Boot sequence: a thin renderer over the BOOT_TIMELINE module's pure choreography.
+  // It tracks elapsed time and asks stateAt() what to draw — it computes no timing itself.
   const bootPercent = document.querySelector("[data-boot-percent]");
-  const bootTrack = document.querySelector(".boot__track span");
-  const bootWord = document.querySelector("[data-boot-word]");
-  const bootWords = ["PARSE", "THINK", "MAKE", "AYOOSH"];
+  const bootTrack = document.querySelector("[data-boot-track]");
+  const bootWheel = document.querySelector("[data-boot-wheel]");
+  const bootLamps = document.querySelectorAll("[data-lamp]");
+  const bootWordSlots = document.querySelectorAll("[data-boot-word]");
 
   const completeBoot = () => {
     body.classList.add("is-ready");
     window.setTimeout(() => body.classList.remove("is-loading"), reducedMotion ? 20 : 900);
+  };
+
+  const renderBootFrame = (state) => {
+    if (bootPercent) bootPercent.textContent = `${String(state.percent).padStart(2, "0")}%`;
+    if (bootTrack) bootTrack.style.width = `${state.progress * 100}%`;
+    bootWheel?.classList.toggle("is-powered", state.lampsLit > 0);
+
+    bootLamps.forEach((lamp, index) => {
+      lamp.classList.toggle("is-lit", index < state.lampsLit);
+    });
+
+    bootWordSlots.forEach((slot, index) => {
+      slot.classList.toggle("is-active", index === state.wordIndex);
+    });
   };
 
   // Automated previews skip the cover so visual checks see the actual page.
@@ -25,34 +41,25 @@
     body.classList.remove("is-loading");
     const previewTarget = document.getElementById(previewParams.get("preview"));
     previewTarget?.scrollIntoView({ block: "start" });
-  } else if (reducedMotion) {
-    if (bootPercent) bootPercent.textContent = "100%";
-    if (bootTrack) bootTrack.style.width = "100%";
-    completeBoot();
   } else {
+    const compactViewport = window.matchMedia("(max-width: 640px)").matches;
+    const timeline = window.createBootTimeline({
+      mode: reducedMotion || compactViewport ? "simple" : "full",
+    });
     const startTime = performance.now();
-    const bootDuration = 720;
 
-    const updateBoot = (time) => {
-      const progress = Math.min((time - startTime) / bootDuration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const value = Math.round(eased * 100);
+    const tick = (now) => {
+      const state = timeline.stateAt(now - startTime);
+      renderBootFrame(state);
 
-      if (bootPercent) bootPercent.textContent = `${String(value).padStart(2, "0")}%`;
-      if (bootTrack) bootTrack.style.width = `${value}%`;
-      if (bootWord) {
-        const wordIndex = Math.min(Math.floor(progress * bootWords.length), bootWords.length - 1);
-        bootWord.textContent = bootWords[wordIndex];
-      }
-
-      if (progress < 1) {
-        requestAnimationFrame(updateBoot);
+      if (!state.complete) {
+        requestAnimationFrame(tick);
       } else {
-        window.setTimeout(completeBoot, 120);
+        completeBoot();
       }
     };
 
-    requestAnimationFrame(updateBoot);
+    requestAnimationFrame(tick);
   }
 
   // Navigation and compact header.
