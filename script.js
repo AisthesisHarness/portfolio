@@ -10,6 +10,7 @@
   // It tracks elapsed time and asks stateAt() what to draw — it computes no timing itself.
   const bootPercent = document.querySelector("[data-boot-percent]");
   const bootTrack = document.querySelector("[data-boot-track]");
+  const bootScene = document.querySelector("[data-boot-scene]");
   const bootWheel = document.querySelector("[data-boot-wheel]");
   const bootLamps = document.querySelectorAll("[data-lamp]");
   const bootWordSlots = document.querySelectorAll("[data-boot-word]");
@@ -22,6 +23,11 @@
   const renderBootFrame = (state) => {
     if (bootPercent) bootPercent.textContent = `${String(state.percent).padStart(2, "0")}%`;
     if (bootTrack) bootTrack.style.width = `${state.progress * 100}%`;
+    if (bootScene) {
+      bootScene.dataset.phase = state.phase;
+      bootScene.style.setProperty("--boot-depth", `${state.depth * 780}px`);
+      bootScene.style.setProperty("--boot-car-z-offset", `${state.carProgress * -5000}px`);
+    }
     bootWheel?.classList.toggle("is-powered", state.lampsLit > 0);
 
     bootLamps.forEach((lamp, index) => {
@@ -29,7 +35,7 @@
     });
 
     bootWordSlots.forEach((slot, index) => {
-      slot.classList.toggle("is-active", index === state.wordIndex);
+      slot.classList.toggle("is-active", !state.complete && index === state.wordIndex);
     });
   };
 

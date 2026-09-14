@@ -38,61 +38,138 @@
       </div>
 
       <div class="boot__stage">
-        <svg
-          class="boot-wheel"
-          data-boot-wheel
-          viewBox="0 0 300 240"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <defs>
-            <filter id="boot-wheel-glow" x="-60%" y="-60%" width="220%" height="220%">
-              <feGaussianBlur stdDeviation="10" />
-            </filter>
-          </defs>
+        <div class="boot-scene" data-boot-scene data-phase="lights">
+          <div class="boot-scene__world">
+            <svg
+              class="boot-corridor"
+              data-boot-corridor
+              viewBox="0 0 1200 620"
+              preserveAspectRatio="xMidYMid slice"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path class="boot-corridor__road" d="M525 272 L675 272 L1140 620 L60 620 Z" />
+              <path class="boot-corridor__line" d="M519 272 L35 620" />
+              <path class="boot-corridor__line" d="M681 272 L1165 620" />
+              <path class="boot-corridor__line boot-corridor__line--inner" d="M558 272 L390 620" />
+              <path class="boot-corridor__line boot-corridor__line--inner" d="M642 272 L810 620" />
 
-          <path class="boot-wheel__paddle" d="M38 60 Q10 48 15 24" />
-          <path class="boot-wheel__paddle" d="M262 60 Q290 48 285 24" />
+              <path class="boot-corridor__edge" d="M505 272 L520 272 L43 620 L0 620 Z" />
+              <path class="boot-corridor__edge" d="M680 272 L695 272 L1200 620 L1157 620 Z" />
 
-          <path
-            class="boot-wheel__rim"
-            fill-rule="evenodd"
-            d="M66 26 L234 26 Q254 27 267 49 L294 91 L294 158 L258 205 L42 205 L6 158 L6 91 L33 49 Q46 27 66 26 Z M87 62 L213 62 Q228 63 239 80 L255 106 L255 145 L234 169 L66 169 L45 145 L45 106 L61 80 Q72 63 87 62 Z"
-          />
+              <g class="boot-corridor__kerbs">
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M520 272 L540 272 L500 300 L481 300 Z" />
+                <path class="boot-corridor__kerb" d="M481 300 L500 300 L447 338 L426 338 Z" />
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M426 338 L447 338 L374 390 L349 390 Z" />
+                <path class="boot-corridor__kerb" d="M349 390 L374 390 L270 465 L238 465 Z" />
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M238 465 L270 465 L55 620 L0 620 Z" />
 
-          <path class="boot-wheel__grip" d="M22 85 Q8 94 10 117 L13 151 Q15 170 34 184 L57 159 L45 139 L44 104 L57 82 Z" />
-          <path class="boot-wheel__grip" d="M278 85 Q292 94 290 117 L287 151 Q285 170 266 184 L243 159 L255 139 L256 104 L243 82 Z" />
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M660 272 L680 272 L719 300 L700 300 Z" />
+                <path class="boot-corridor__kerb" d="M700 300 L719 300 L774 338 L753 338 Z" />
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M753 338 L774 338 L851 390 L826 390 Z" />
+                <path class="boot-corridor__kerb" d="M826 390 L851 390 L962 465 L930 465 Z" />
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M930 465 L962 465 L1200 620 L1145 620 Z" />
+              </g>
 
-          <g class="boot-wheel__lamps">
-            <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="0" x="100" y="66" width="9" height="14" rx="2" />
-            <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="1" x="113" y="66" width="9" height="14" rx="2" />
-            <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="2" x="126" y="66" width="9" height="14" rx="2" />
-            <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="3" x="139" y="66" width="9" height="14" rx="2" />
-            <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="4" x="152" y="66" width="9" height="14" rx="2" />
-            <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="5" x="165" y="66" width="9" height="14" rx="2" />
-            <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="6" x="178" y="66" width="9" height="14" rx="2" />
-            <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="7" x="191" y="66" width="9" height="14" rx="2" />
-          </g>
+              <path class="boot-corridor__dash" d="M592 286 L608 286 L613 325 L587 325 Z" />
+              <path class="boot-corridor__dash" d="M582 352 L618 352 L630 425 L570 425 Z" />
+              <path class="boot-corridor__dash" d="M558 474 L642 474 L674 620 L526 620 Z" />
+            </svg>
 
-          <g class="boot-wheel__cluster">
-            <ellipse class="boot-wheel__glow" cx="150" cy="122" rx="70" ry="50" filter="url(#boot-wheel-glow)" />
+            <svg
+              class="boot-car"
+              data-boot-car
+              viewBox="0 0 520 300"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <g class="boot-car__spark-flecks">
+                <path class="boot-car__spark" d="M221 255 l-26 25" />
+                <path class="boot-car__spark" d="M246 260 l-8 31" />
+                <path class="boot-car__spark" d="M275 259 l18 28" />
+                <path class="boot-car__spark" d="M298 253 l31 21" />
+              </g>
 
-            <circle class="boot-wheel__dial" cx="91" cy="128" r="13" />
-            <line class="boot-wheel__dial-mark" x1="91" y1="128" x2="91" y2="117" />
+              <rect class="boot-car__tyre" x="27" y="130" width="132" height="124" rx="30" />
+              <rect class="boot-car__tyre" x="378" y="143" width="106" height="105" rx="27" />
+              <path class="boot-car__tyre-mark" d="M43 155 H144 M43 228 H144 M392 165 H470 M392 222 H470" />
 
-            <circle class="boot-wheel__dial" cx="209" cy="128" r="13" />
-            <line class="boot-wheel__dial-mark" x1="209" y1="128" x2="209" y2="117" />
+              <path class="boot-car__engine-cover" d="M184 196 L207 110 L239 75 L250 33 L270 33 L281 75 L313 110 L336 196 Z" />
+              <path class="boot-car__fin" d="M259 99 L259 27 L317 88 Z" />
+              <path class="boot-car__t-cam" d="M241 31 H279 M260 31 V15 M249 15 H271" />
+              <path class="boot-car__body" d="M126 185 L181 150 L211 137 H319 L347 153 L395 178 L364 224 H153 Z" />
+              <path class="boot-car__accent" d="M184 176 Q263 142 339 173 L319 193 H202 Z" />
 
-            <rect class="boot-wheel__display" x="115" y="100" width="70" height="46" rx="6" />
-            <rect class="boot-wheel__display-line" x="123" y="112" width="46" height="4" rx="2" />
-            <rect class="boot-wheel__display-line boot-wheel__display-line--accent" x="123" y="122" width="30" height="4" rx="2" />
+              <g class="boot-car__rear-wing">
+                <path class="boot-car__wing-plane" d="M48 93 Q250 68 463 81 L453 118 Q252 105 61 132 Z" />
+                <path class="boot-car__wing-line" d="M66 111 Q255 88 449 100" />
+                <path class="boot-car__endplate" d="M38 76 L72 84 L78 157 L43 148 Z" />
+                <path class="boot-car__endplate" d="M471 70 L440 78 L444 143 L471 137 Z" />
+                <path class="boot-car__wing-stay" d="M190 114 L207 173 M329 106 L315 172" />
+              </g>
 
-            <circle class="boot-wheel__button" cx="77" cy="153" r="6" />
-            <circle class="boot-wheel__button" cx="223" cy="153" r="6" />
-            <rect class="boot-wheel__button" x="94" y="174" width="13" height="9" rx="3" />
-            <rect class="boot-wheel__button" x="193" y="174" width="13" height="9" rx="3" />
-          </g>
-        </svg>
+              <path class="boot-car__diffuser" d="M136 220 L184 204 H337 L378 216 L351 260 L303 237 L279 268 H238 L214 238 L164 265 Z" />
+              <path class="boot-car__diffuser-line" d="M177 221 L166 253 M218 217 L211 249 M259 217 L257 261 M300 216 L305 246 M340 218 L349 248" />
+              <rect class="boot-car__rain-light" x="249" y="217" width="20" height="11" rx="3" />
+            </svg>
+
+            <svg
+              class="boot-wheel"
+              data-boot-wheel
+              viewBox="0 0 300 240"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <defs>
+                <filter id="boot-wheel-glow" x="-60%" y="-60%" width="220%" height="220%">
+                  <feGaussianBlur stdDeviation="10" />
+                </filter>
+              </defs>
+
+              <path class="boot-wheel__paddle" d="M38 60 Q10 48 15 24" />
+              <path class="boot-wheel__paddle" d="M262 60 Q290 48 285 24" />
+
+              <path
+                class="boot-wheel__rim"
+                fill-rule="evenodd"
+                d="M66 26 L234 26 Q254 27 267 49 L294 91 L294 158 L258 205 L42 205 L6 158 L6 91 L33 49 Q46 27 66 26 Z M87 62 L213 62 Q228 63 239 80 L255 106 L255 145 L234 169 L66 169 L45 145 L45 106 L61 80 Q72 63 87 62 Z"
+              />
+
+              <path class="boot-wheel__grip" d="M22 85 Q8 94 10 117 L13 151 Q15 170 34 184 L57 159 L45 139 L44 104 L57 82 Z" />
+              <path class="boot-wheel__grip" d="M278 85 Q292 94 290 117 L287 151 Q285 170 266 184 L243 159 L255 139 L256 104 L243 82 Z" />
+
+              <g class="boot-wheel__lamps">
+                <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="0" x="100" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="1" x="113" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="2" x="126" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="3" x="139" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="4" x="152" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="5" x="165" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="6" x="178" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="7" x="191" y="66" width="9" height="14" rx="2" />
+              </g>
+
+              <g class="boot-wheel__cluster">
+                <ellipse class="boot-wheel__glow" cx="150" cy="122" rx="70" ry="50" filter="url(#boot-wheel-glow)" />
+
+                <circle class="boot-wheel__dial" cx="91" cy="128" r="13" />
+                <line class="boot-wheel__dial-mark" x1="91" y1="128" x2="91" y2="117" />
+
+                <circle class="boot-wheel__dial" cx="209" cy="128" r="13" />
+                <line class="boot-wheel__dial-mark" x1="209" y1="128" x2="209" y2="117" />
+
+                <rect class="boot-wheel__display" x="115" y="100" width="70" height="46" rx="6" />
+                <rect class="boot-wheel__display-line" x="123" y="112" width="46" height="4" rx="2" />
+                <rect class="boot-wheel__display-line boot-wheel__display-line--accent" x="123" y="122" width="30" height="4" rx="2" />
+
+                <circle class="boot-wheel__button" cx="77" cy="153" r="6" />
+                <circle class="boot-wheel__button" cx="223" cy="153" r="6" />
+                <rect class="boot-wheel__button" x="94" y="174" width="13" height="9" rx="3" />
+                <rect class="boot-wheel__button" x="193" y="174" width="13" height="9" rx="3" />
+              </g>
+            </svg>
+          </div>
+        </div>
 
         <div class="boot__words">
           <span class="boot__word" data-boot-word="think">THINK</span>
