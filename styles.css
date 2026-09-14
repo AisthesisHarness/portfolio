@@ -151,9 +151,20 @@ svg {
   flex-direction: column;
   justify-content: space-between;
   padding: 28px 36px;
-  background: var(--accent-primary);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
   transition: transform 0.8s cubic-bezier(0.77, 0, 0.18, 1) 0.1s;
+}
+
+.boot::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 5px;
+  background: var(--accent-primary);
+  box-shadow: 0 0 22px var(--accent-primary);
 }
 
 body.is-ready .boot {
@@ -163,6 +174,8 @@ body.is-ready .boot {
 
 .boot__top,
 .boot__meta {
+  position: relative;
+  z-index: 2;
   display: flex;
   justify-content: space-between;
   font-family: var(--mono);
@@ -170,21 +183,297 @@ body.is-ready .boot {
   letter-spacing: 0.08em;
 }
 
+.boot__stage {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  overflow: visible;
+  text-align: center;
+}
+
+.boot-scene {
+  --boot-depth: 0px;
+  --boot-car-z-offset: 0px;
+  position: absolute;
+  inset: 0;
+  perspective: 900px;
+  perspective-origin: 50% 48%;
+}
+
+.boot-scene__world {
+  position: absolute;
+  inset: 0;
+  transform: translate3d(0, 0, var(--boot-depth));
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.boot-corridor,
+.boot-car,
+.boot-wheel {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  display: block;
+  visibility: hidden;
+  overflow: visible;
+  backface-visibility: hidden;
+  transform-origin: center;
+}
+
+.boot-corridor {
+  width: max(112vw, 1120px);
+  max-width: none;
+  transform: translate3d(-50%, -50%, -300px);
+}
+
+.boot-corridor__road {
+  fill: var(--ink-soft);
+  stroke: var(--grey);
+  stroke-width: 2;
+}
+
+.boot-corridor__line {
+  fill: none;
+  stroke: var(--paper);
+  stroke-width: 5;
+  opacity: 0.58;
+}
+
+.boot-corridor__line--inner {
+  stroke-width: 2;
+  opacity: 0.28;
+}
+
+.boot-corridor__edge {
+  fill: var(--accent-primary);
+}
+
+.boot-corridor__kerb {
+  fill: var(--ink);
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+
+.boot-corridor__kerb--orange {
+  fill: var(--accent-secondary);
+  stroke: var(--accent-secondary);
+}
+
+.boot-corridor__dash {
+  fill: var(--paper);
+  opacity: 0.36;
+}
+
+.boot-car {
+  width: min(42vw, 440px);
+  transform: translate3d(-50%, -43%, var(--boot-car-z-offset));
+  will-change: transform;
+}
+
+.boot-car__tyre {
+  fill: var(--ink);
+  stroke: var(--grey);
+  stroke-width: 5;
+}
+
+.boot-car__tyre-mark,
+.boot-car__t-cam,
+.boot-car__wing-line,
+.boot-car__wing-stay,
+.boot-car__diffuser-line {
+  fill: none;
+  stroke: var(--paper);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.boot-car__engine-cover,
+.boot-car__body,
+.boot-car__wing-plane,
+.boot-car__endplate {
+  fill: var(--accent-secondary);
+  stroke: var(--paper);
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.boot-car__fin {
+  fill: var(--accent-primary);
+  stroke: var(--paper);
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.boot-car__accent,
+.boot-car__rain-light {
+  fill: var(--accent-primary);
+}
+
+.boot-car__diffuser {
+  fill: var(--ink-soft);
+  stroke: var(--grey);
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.boot-car__spark {
+  fill: none;
+  stroke: var(--accent-primary);
+  stroke-linecap: round;
+  stroke-width: 6;
+}
+
+.boot-car__spark:nth-child(even) {
+  stroke: var(--accent-secondary);
+}
+
+.boot-wheel {
+  width: min(56vw, 300px);
+  transform: translate3d(-50%, -50%, 140px);
+  will-change: transform;
+}
+
+.boot-scene[data-phase="lights"] .boot-wheel,
+.boot-scene[data-phase="push"] .boot-wheel,
+.boot-scene[data-phase="push"] .boot-corridor,
+.boot-scene[data-phase="car"] .boot-corridor,
+.boot-scene[data-phase="car"] .boot-car {
+  visibility: visible;
+}
+
+.boot-wheel__paddle {
+  fill: none;
+  stroke: var(--grey);
+  stroke-linecap: round;
+  stroke-width: 9;
+  opacity: 0.55;
+}
+
+.boot-wheel__rim,
+.boot-wheel__grip {
+  fill: var(--ink-soft);
+  stroke: var(--accent-primary);
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.boot-wheel__grip {
+  fill: var(--ink);
+  stroke: var(--grey);
+  stroke-width: 3;
+}
+
+.boot-wheel__lamp {
+  fill: var(--grey);
+  opacity: 0.3;
+  transition: fill 0.12s linear, opacity 0.12s linear;
+}
+
+.boot-wheel__lamp.is-lit.boot-wheel__lamp--early {
+  fill: var(--accent-secondary);
+  opacity: 1;
+  filter: drop-shadow(0 0 5px var(--accent-secondary));
+}
+
+.boot-wheel__lamp.is-lit.boot-wheel__lamp--late {
+  fill: var(--accent-primary);
+  opacity: 1;
+  filter: drop-shadow(0 0 6px var(--accent-primary));
+}
+
+.boot-wheel__glow {
+  fill: var(--accent-primary);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.boot-wheel__dial {
+  fill: var(--ink);
+  stroke: var(--grey);
+  stroke-width: 3;
+}
+
+.boot-wheel__dial-mark {
+  stroke: var(--grey);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.boot-wheel.is-powered .boot-wheel__glow {
+  opacity: 0.32;
+}
+
+.boot-wheel.is-powered .boot-wheel__dial,
+.boot-wheel.is-powered .boot-wheel__button {
+  stroke: var(--accent-secondary);
+  filter: drop-shadow(0 0 3px var(--accent-secondary));
+}
+
+.boot-wheel__display {
+  fill: var(--ink);
+  stroke: var(--grey);
+  stroke-width: 3;
+}
+
+.boot-wheel.is-powered .boot-wheel__display {
+  stroke: var(--accent-primary);
+  filter: drop-shadow(0 0 5px var(--accent-primary));
+}
+
+.boot-wheel__display-line {
+  fill: var(--grey);
+}
+
+.boot-wheel__display-line--accent {
+  fill: var(--accent-primary);
+}
+
+.boot-wheel__button {
+  fill: var(--ink);
+  stroke: var(--grey);
+  stroke-width: 2;
+}
+
+.boot__words {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: clamp(20px, 5vh, 60px);
+  left: 0;
+  display: grid;
+  min-height: clamp(56px, 13vw, 150px);
+  place-items: center;
+}
+
 .boot__word {
-  align-self: center;
-  font-size: clamp(76px, 20vw, 320px);
+  grid-area: 1 / 1;
+  font-size: clamp(44px, 11vw, 150px);
   font-weight: 900;
-  letter-spacing: -0.09em;
-  line-height: 0.7;
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.boot__word.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.boot__foot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .boot__track {
-  position: absolute;
-  right: 36px;
-  bottom: 70px;
-  left: 36px;
   height: 1px;
-  background: rgba(9, 10, 8, 0.24);
+  background: var(--line-dark);
 }
 
 .boot__track span {
@@ -192,7 +481,7 @@ body.is-ready .boot {
   width: 0;
   height: 3px;
   margin-top: -1px;
-  background: var(--ink);
+  background: var(--accent-primary);
   transition: width 0.08s linear;
 }
 
@@ -209,10 +498,6 @@ body.is-ready .boot {
 
 .brand-mark span {
   color: var(--accent-primary);
-}
-
-.boot .brand-mark span {
-  color: var(--ink);
 }
 
 /* Header */
@@ -2463,14 +2748,12 @@ body.cursor-hover .cursor-ring {
     padding: 22px 18px;
   }
 
-  .boot__track {
-    right: 18px;
-    bottom: 58px;
-    left: 18px;
+  .boot-wheel {
+    width: 68vw;
   }
 
   .boot__word {
-    font-size: 24vw;
+    font-size: 17vw;
   }
 
   .hero {
@@ -2786,6 +3069,11 @@ body.cursor-hover .cursor-ring {
   }
 
   .hero__line {
+    transform: none;
+  }
+
+  .boot__word,
+  .boot__word.is-active {
     transform: none;
   }
 }

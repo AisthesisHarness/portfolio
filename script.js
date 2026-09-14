@@ -6,15 +6,42 @@
   const previewParams = new URLSearchParams(window.location.search);
   const automatedPreview = previewParams.has("preview");
 
-  // Short system-style intro. It never blocks the page for more than a moment.
+  // Boot sequence: a thin renderer over the BOOT_TIMELINE module's pure choreography.
+  // It tracks elapsed time and asks stateAt() what to draw — it computes no timing itself.
   const bootPercent = document.querySelector("[data-boot-percent]");
-  const bootTrack = document.querySelector(".boot__track span");
-  const bootWord = document.querySelector("[data-boot-word]");
-  const bootWords = ["PARSE", "THINK", "MAKE", "AYOOSH"];
+  const bootTrack = document.querySelector("[data-boot-track]");
+  const bootScene = document.querySelector("[data-boot-scene]");
+  const bootWheel = document.querySelector("[data-boot-wheel]");
+  const bootLamps = document.querySelectorAll("[data-lamp]");
+  const bootWordSlots = document.querySelectorAll("[data-boot-word]");
 
   const completeBoot = () => {
     body.classList.add("is-ready");
     window.setTimeout(() => body.classList.remove("is-loading"), reducedMotion ? 20 : 900);
+  };
+
+  const renderBootFrame = (state) => {
+    if (bootPercent) bootPercent.textContent = `${String(state.percent).padStart(2, "0")}%`;
+    if (bootTrack) bootTrack.style.width = `${state.progress * 100}%`;
+    if (bootScene) {
+      bootScene.dataset.phase = state.phase;
+      bootScene.style.setProperty("--boot-depth", `${state.depth * 780}px`);
+      // The corridor sits at a fixed local Z of -300px (see .boot-corridor in styles.css).
+      // The car's local Z is expressed relative to that so it is guaranteed to sit in
+      // front of the corridor at reveal (carProgress 0) and recede behind it — vanishing
+      // into the corridor near the end of the shrink — rather than the two independently
+      // drifting offsets crossing over unpredictably as depth changes.
+      bootScene.style.setProperty("--boot-car-z-offset", `${-150 - state.carProgress * 500}px`);
+    }
+    bootWheel?.classList.toggle("is-powered", state.lampsLit > 0);
+
+    bootLamps.forEach((lamp, index) => {
+      lamp.classList.toggle("is-lit", index < state.lampsLit);
+    });
+
+    bootWordSlots.forEach((slot, index) => {
+      slot.classList.toggle("is-active", !state.complete && index === state.wordIndex);
+    });
   };
 
   // Automated previews skip the cover so visual checks see the actual page.
@@ -25,34 +52,25 @@
     body.classList.remove("is-loading");
     const previewTarget = document.getElementById(previewParams.get("preview"));
     previewTarget?.scrollIntoView({ block: "start" });
-  } else if (reducedMotion) {
-    if (bootPercent) bootPercent.textContent = "100%";
-    if (bootTrack) bootTrack.style.width = "100%";
-    completeBoot();
   } else {
+    const compactViewport = window.matchMedia("(max-width: 640px)").matches;
+    const timeline = window.createBootTimeline({
+      mode: reducedMotion || compactViewport ? "simple" : "full",
+    });
     const startTime = performance.now();
-    const bootDuration = 720;
 
-    const updateBoot = (time) => {
-      const progress = Math.min((time - startTime) / bootDuration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const value = Math.round(eased * 100);
+    const tick = (now) => {
+      const state = timeline.stateAt(now - startTime);
+      renderBootFrame(state);
 
-      if (bootPercent) bootPercent.textContent = `${String(value).padStart(2, "0")}%`;
-      if (bootTrack) bootTrack.style.width = `${value}%`;
-      if (bootWord) {
-        const wordIndex = Math.min(Math.floor(progress * bootWords.length), bootWords.length - 1);
-        bootWord.textContent = bootWords[wordIndex];
-      }
-
-      if (progress < 1) {
-        requestAnimationFrame(updateBoot);
+      if (!state.complete) {
+        requestAnimationFrame(tick);
       } else {
-        window.setTimeout(completeBoot, 120);
+        completeBoot();
       }
     };
 
-    requestAnimationFrame(updateBoot);
+    requestAnimationFrame(tick);
   }
 
   // Navigation and compact header.

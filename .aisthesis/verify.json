@@ -7,11 +7,10 @@
   ],
   "preview": {
     "command": [
-      "python3",
-      "-m",
-      "http.server",
-      "4173"
+      "bash",
+      "-lc",
+      "python3 -m http.server 4173 >/dev/null 2>&1 & sleep 1; exec chromium --no-sandbox --disable-gpu --window-size=1440,900 --app=http://localhost:4173/"
     ],
-    "settleMs": 1000
+    "settleMs": 12000
   }
 }
