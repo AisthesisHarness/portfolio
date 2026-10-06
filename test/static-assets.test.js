@@ -6,16 +6,34 @@ const test = require("node:test");
 const root = join(__dirname, "..");
 const readAsset = (name) => readFileSync(join(root, name), "utf8");
 
-test("authored assets expose only the semantic crimson-orange primary accent", () => {
+test("the crimson-orange identity holds everywhere except the boot overlay's own scoped lime accent", () => {
   const styles = readAsset("styles.css");
-  const authoredAssets = ["index.html", "styles.css", "script.js", "favicon.svg"]
-    .map(readAsset)
-    .join("\n");
+  const html = readAsset("index.html");
+  const favicon = readAsset("favicon.svg");
 
-  assert.match(styles, /--accent-primary:\s*#FF4935\s*;/);
-  assert.doesNotMatch(authoredAssets, /#d(?:9ff38|8ff34)/i);
-  assert.doesNotMatch(authoredAssets, /rgba\(\s*217\s*,\s*255\s*,\s*56\s*,/i);
-  assert.doesNotMatch(authoredAssets, /(?:--|__|--)lime\b|\blime(?:__|--)|\blime\b/i);
+  // The F-000012 boot overlay deliberately recodes the reference photo's green/yellow
+  // kerbs into brand colours (alternating ink/orange with a lime edge), introducing the
+  // historical brand lime as a token scoped to the .boot block. Everything outside that
+  // block — the actual site identity — must stay crimson-orange with no trace of lime.
+  const nonBootStyles = styles.slice(0, styles.indexOf("/* Boot screen */"));
+  const bootMarkupStart = html.indexOf('<div class="boot"');
+  const bootMarkupEnd = html.indexOf('<div class="cursor-dot"', bootMarkupStart);
+  const nonBootHtml = html.replace(html.slice(bootMarkupStart, bootMarkupEnd), "");
+  const nonBoot = nonBootStyles + nonBootHtml + readAsset("script.js") + favicon;
+
+  assert.match(nonBootStyles, /--accent-primary:\s*#FF4935\s*;/);
+  assert.doesNotMatch(nonBoot, /#d(?:9ff38|8ff34)/i);
+  assert.doesNotMatch(nonBoot, /rgba\(\s*217\s*,\s*255\s*,\s*56\s*,/i);
+  assert.doesNotMatch(nonBoot, /(?:--|__|--)lime\b|\blime(?:__|--)|\blime\b/i);
+
+  // The boot overlay's own tokens stay inside the existing palette: ink, ink-soft,
+  // paper, lime, orange, and grey — no green/yellow borrowed from the reference photo.
+  assert.match(styles, /\.boot\s*\{[^}]*--lime:\s*#d9ff38\s*;/);
+  const bootStart = styles.indexOf("/* Boot screen */");
+  const bootEnd = styles.indexOf(".brand-mark {", bootStart);
+  const bootBlock = styles.slice(bootStart, bootEnd);
+  assert.match(bootBlock, /stroke:\s*var\(--lime\)/);
+  assert.doesNotMatch(bootBlock, /#(?!d9ff38)[0-9A-Fa-f]{6}\b/);
 });
 
 test("Explore the builds keeps its accessible destination and gains only a moderate radius", () => {

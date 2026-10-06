@@ -13,6 +13,16 @@ test("boot overlay markup exposes the complete three-depth scene and telemetry h
   assert.match(html, /data-boot-corridor/, "mid-depth track corridor is present");
   assert.match(html, /data-boot-car/, "far-depth car is present");
   assert.match(html, /<svg[^>]*data-boot-wheel/, "wheel svg is present");
+  assert.match(
+    html,
+    /<path class="[^"]*boot-corridor__kerb-edge"/,
+    "both kerb banks carry a lime brand edge",
+  );
+  assert.equal(
+    [...html.matchAll(/class="[^"]*boot-corridor__kerb-edge/g)].length,
+    2,
+    "one lime edge per kerb bank",
+  );
 
   [
     "boot-car__rear-wing",

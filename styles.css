@@ -144,6 +144,9 @@ svg {
 
 /* Boot screen */
 .boot {
+  /* The boot overlay owns its own scoped lime accent (kerb edges, rev-strip lamps);
+     the site-wide palette keeps the F-000011 crimson-orange identity untouched. */
+  --lime: #d9ff38;
   position: fixed;
   z-index: 1500;
   inset: 0;
@@ -259,6 +262,14 @@ body.is-ready .boot {
 .boot-corridor__kerb--orange {
   fill: var(--accent-secondary);
   stroke: var(--accent-secondary);
+}
+
+.boot-corridor__kerb-edge {
+  fill: none;
+  stroke: var(--lime);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: 5;
 }
 
 .boot-corridor__dash {
