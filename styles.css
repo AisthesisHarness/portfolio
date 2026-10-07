@@ -270,15 +270,64 @@ body.is-ready .boot {
   stroke-width: 5;
 }
 
-.boot-corridor__dash {
-  fill: var(--paper);
-  opacity: 0.36;
-}
-
 .boot-car {
   width: min(42vw, 440px);
   transform: translate3d(-50%, -43%, var(--boot-car-z-offset));
   will-change: transform;
+}
+
+.boot-car__shadow {
+  fill: var(--ink);
+  opacity: 0.5;
+}
+
+.boot-car__wing-endplates,
+.boot-car__wing-plane-lower,
+.boot-car__engine-cover,
+.boot-car__shark-fin,
+.boot-car__diffuser {
+  fill: var(--ink-soft);
+  stroke: var(--paper);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: 5;
+}
+
+.boot-car__wing-plane {
+  fill: var(--accent-secondary);
+  stroke: var(--paper);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: 5;
+}
+
+.boot-car__wing-plane-lower {
+  stroke-width: 4;
+}
+
+.boot-car__wing-support,
+.boot-car__rear-link,
+.boot-car__suspension,
+.boot-car__tyre-tread,
+.boot-car__diffuser-strakes {
+  fill: none;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.boot-car__wing-support {
+  stroke: var(--paper);
+  stroke-width: 7;
+}
+
+.boot-car__rear-link {
+  stroke: var(--grey);
+  stroke-width: 6;
+}
+
+.boot-car__suspension {
+  stroke: var(--paper);
+  stroke-width: 4;
 }
 
 .boot-car__tyre {
@@ -287,56 +336,19 @@ body.is-ready .boot {
   stroke-width: 5;
 }
 
-.boot-car__tyre-mark,
-.boot-car__t-cam,
-.boot-car__wing-line,
-.boot-car__wing-stay,
-.boot-car__diffuser-line {
-  fill: none;
-  stroke: var(--paper);
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.boot-car__tyre-tread {
+  stroke: var(--ink-soft);
   stroke-width: 4;
 }
 
-.boot-car__engine-cover,
-.boot-car__body,
-.boot-car__wing-plane,
-.boot-car__endplate {
-  fill: var(--accent-secondary);
-  stroke: var(--paper);
-  stroke-linejoin: round;
-  stroke-width: 4;
-}
-
-.boot-car__fin {
-  fill: var(--accent-primary);
-  stroke: var(--paper);
-  stroke-linejoin: round;
-  stroke-width: 4;
-}
-
-.boot-car__accent,
+.boot-car__engine-accent,
 .boot-car__rain-light {
-  fill: var(--accent-primary);
+  fill: var(--accent-secondary);
 }
 
-.boot-car__diffuser {
-  fill: var(--ink-soft);
+.boot-car__diffuser-strakes {
   stroke: var(--grey);
-  stroke-linejoin: round;
-  stroke-width: 4;
-}
-
-.boot-car__spark {
-  fill: none;
-  stroke: var(--accent-primary);
-  stroke-linecap: round;
-  stroke-width: 6;
-}
-
-.boot-car__spark:nth-child(even) {
-  stroke: var(--accent-secondary);
+  stroke-width: 3;
 }
 
 .boot-wheel {
