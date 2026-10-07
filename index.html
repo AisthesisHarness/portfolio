@@ -24,6 +24,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script src="boot-timeline.js" defer></script>
     <script src="script.js" defer></script>
   </head>
 
@@ -35,11 +36,142 @@
         <span class="brand-mark">AI<span>/</span>26</span>
         <span class="boot__status">SYSTEM START</span>
       </div>
-      <div class="boot__word" data-boot-word>AYOOSH</div>
-      <div class="boot__track"><span></span></div>
-      <div class="boot__meta">
-        <span>AHMEDABAD — IN</span>
-        <span data-boot-percent>00%</span>
+
+      <div class="boot__stage">
+        <div class="boot-scene" data-boot-scene data-phase="lights">
+          <div class="boot-scene__world">
+            <svg
+              class="boot-corridor"
+              data-boot-corridor
+              viewBox="0 0 1200 620"
+              preserveAspectRatio="xMidYMid slice"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path class="boot-corridor__road" d="M525 272 L675 272 L1140 620 L60 620 Z" />
+              <path class="boot-corridor__line" d="M519 272 L35 620" />
+              <path class="boot-corridor__line" d="M681 272 L1165 620" />
+              <path class="boot-corridor__line boot-corridor__line--inner" d="M558 272 L390 620" />
+              <path class="boot-corridor__line boot-corridor__line--inner" d="M642 272 L810 620" />
+
+              <path class="boot-corridor__edge" d="M505 272 L520 272 L43 620 L0 620 Z" />
+              <path class="boot-corridor__edge" d="M680 272 L695 272 L1200 620 L1157 620 Z" />
+
+              <g class="boot-corridor__kerbs">
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M520 272 L540 272 L500 300 L481 300 Z" />
+                <path class="boot-corridor__kerb" d="M481 300 L500 300 L447 338 L426 338 Z" />
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M426 338 L447 338 L374 390 L349 390 Z" />
+                <path class="boot-corridor__kerb" d="M349 390 L374 390 L270 465 L238 465 Z" />
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M238 465 L270 465 L55 620 L0 620 Z" />
+
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M660 272 L680 272 L719 300 L700 300 Z" />
+                <path class="boot-corridor__kerb" d="M700 300 L719 300 L774 338 L753 338 Z" />
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M753 338 L774 338 L851 390 L826 390 Z" />
+                <path class="boot-corridor__kerb" d="M826 390 L851 390 L962 465 L930 465 Z" />
+                <path class="boot-corridor__kerb boot-corridor__kerb--orange" d="M930 465 L962 465 L1200 620 L1145 620 Z" />
+
+                <path class="boot-corridor__kerb-edge" d="M520 272 L500 300 L447 338 L374 390 L270 465 L55 620" />
+                <path class="boot-corridor__kerb-edge" d="M680 272 L700 300 L753 338 L826 390 L930 465 L1145 620" />
+              </g>
+
+            </svg>
+
+            <svg
+              class="boot-car"
+              data-boot-car
+              viewBox="0 0 520 300"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <ellipse class="boot-car__shadow" cx="260" cy="288" rx="250" ry="10" />
+              <path class="boot-car__wing-endplates" d="M92 26 H112 V176 H92 Z M408 26 H428 V176 H408 Z" />
+              <path class="boot-car__wing-plane" d="M112 38 H408 V64 H112 Z" />
+              <path class="boot-car__wing-plane-lower" d="M112 74 H408 V86 H112 Z" />
+              <path class="boot-car__wing-support" d="M260 86 V140" />
+              <path class="boot-car__rear-link" d="M120 198 H400" />
+              <path class="boot-car__suspension" d="M215 200 L112 182 M215 226 L112 236 M305 200 L408 182 M305 226 L408 236" />
+              <rect class="boot-car__tyre" x="18" y="118" width="100" height="164" rx="26" />
+              <rect class="boot-car__tyre" x="402" y="118" width="100" height="164" rx="26" />
+              <path class="boot-car__tyre-tread" d="M34 152 H102 M34 248 H102 M418 152 H486 M418 248 H486" />
+              <path class="boot-car__engine-cover" d="M200 258 C206 205 228 165 246 140 H274 C292 165 314 205 320 258 Z" />
+              <path class="boot-car__engine-accent" d="M232 250 C236 210 250 178 260 160 C270 178 284 210 288 250 Z" />
+              <path class="boot-car__shark-fin" d="M246 140 L260 118 L274 140 Z" />
+              <path class="boot-car__diffuser" d="M124 256 H396 L404 282 H116 Z" />
+              <path class="boot-car__diffuser-strakes" d="M170 258 L162 280 M215 258 L212 280 M305 258 L308 280 M350 258 L358 280" />
+              <rect class="boot-car__rain-light" x="246" y="262" width="28" height="12" rx="3" />
+            </svg>
+
+            <svg
+              class="boot-wheel"
+              data-boot-wheel
+              viewBox="0 0 300 240"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <defs>
+                <filter id="boot-wheel-glow" x="-60%" y="-60%" width="220%" height="220%">
+                  <feGaussianBlur stdDeviation="10" />
+                </filter>
+              </defs>
+
+              <path class="boot-wheel__paddle" d="M38 60 Q10 48 15 24" />
+              <path class="boot-wheel__paddle" d="M262 60 Q290 48 285 24" />
+
+              <path
+                class="boot-wheel__rim"
+                fill-rule="evenodd"
+                d="M66 26 L234 26 Q254 27 267 49 L294 91 L294 158 L258 205 L42 205 L6 158 L6 91 L33 49 Q46 27 66 26 Z M87 62 L213 62 Q228 63 239 80 L255 106 L255 145 L234 169 L66 169 L45 145 L45 106 L61 80 Q72 63 87 62 Z"
+              />
+
+              <path class="boot-wheel__grip" d="M22 85 Q8 94 10 117 L13 151 Q15 170 34 184 L57 159 L45 139 L44 104 L57 82 Z" />
+              <path class="boot-wheel__grip" d="M278 85 Q292 94 290 117 L287 151 Q285 170 266 184 L243 159 L255 139 L256 104 L243 82 Z" />
+
+              <g class="boot-wheel__lamps">
+                <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="0" x="100" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="1" x="113" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="2" x="126" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--early" data-lamp="3" x="139" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="4" x="152" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="5" x="165" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="6" x="178" y="66" width="9" height="14" rx="2" />
+                <rect class="boot-wheel__lamp boot-wheel__lamp--late" data-lamp="7" x="191" y="66" width="9" height="14" rx="2" />
+              </g>
+
+              <g class="boot-wheel__cluster">
+                <ellipse class="boot-wheel__glow" cx="150" cy="122" rx="70" ry="50" filter="url(#boot-wheel-glow)" />
+
+                <circle class="boot-wheel__dial" cx="91" cy="128" r="13" />
+                <line class="boot-wheel__dial-mark" x1="91" y1="128" x2="91" y2="117" />
+
+                <circle class="boot-wheel__dial" cx="209" cy="128" r="13" />
+                <line class="boot-wheel__dial-mark" x1="209" y1="128" x2="209" y2="117" />
+
+                <rect class="boot-wheel__display" x="115" y="100" width="70" height="46" rx="6" />
+                <rect class="boot-wheel__display-line" x="123" y="112" width="46" height="4" rx="2" />
+                <rect class="boot-wheel__display-line boot-wheel__display-line--accent" x="123" y="122" width="30" height="4" rx="2" />
+
+                <circle class="boot-wheel__button" cx="77" cy="153" r="6" />
+                <circle class="boot-wheel__button" cx="223" cy="153" r="6" />
+                <rect class="boot-wheel__button" x="94" y="174" width="13" height="9" rx="3" />
+                <rect class="boot-wheel__button" x="193" y="174" width="13" height="9" rx="3" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="boot__words">
+          <span class="boot__word" data-boot-word="think">THINK</span>
+          <span class="boot__word" data-boot-word="make">MAKE</span>
+          <span class="boot__word" data-boot-word="scale">SCALE</span>
+        </div>
+      </div>
+
+      <div class="boot__foot">
+        <div class="boot__track"><span data-boot-track></span></div>
+        <div class="boot__meta">
+          <span>AHMEDABAD — IN</span>
+          <span data-boot-percent>00%</span>
+        </div>
       </div>
     </div>
 

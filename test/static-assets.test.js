@@ -6,16 +6,28 @@ const test = require("node:test");
 const root = join(__dirname, "..");
 const readAsset = (name) => readFileSync(join(root, name), "utf8");
 
-test("authored assets expose only the semantic crimson-orange primary accent", () => {
+test("the crimson-orange identity uses no lime token or colour", () => {
   const styles = readAsset("styles.css");
-  const authoredAssets = ["index.html", "styles.css", "script.js", "favicon.svg"]
-    .map(readAsset)
-    .join("\n");
+  const html = readAsset("index.html");
+  const favicon = readAsset("favicon.svg");
+
+  // F-000012 uses the established ink, paper, grey, and orange tokens throughout.
+  // The source photograph's green/yellow accents must not introduce lime into the site.
+  const assets = styles + html + readAsset("script.js") + favicon;
 
   assert.match(styles, /--accent-primary:\s*#FF4935\s*;/);
-  assert.doesNotMatch(authoredAssets, /#d(?:9ff38|8ff34)/i);
-  assert.doesNotMatch(authoredAssets, /rgba\(\s*217\s*,\s*255\s*,\s*56\s*,/i);
-  assert.doesNotMatch(authoredAssets, /(?:--|__|--)lime\b|\blime(?:__|--)|\blime\b/i);
+  assert.doesNotMatch(assets, /#d(?:9ff38|8ff34)/i);
+  assert.doesNotMatch(assets, /rgba\(\s*217\s*,\s*255\s*,\s*56\s*,/i);
+  assert.doesNotMatch(assets, /(?:--|__|--)lime\b|\blime(?:__|--)|\blime\b/i);
+
+  const bootStart = styles.indexOf("/* Boot screen */");
+  const bootEnd = styles.indexOf(".brand-mark {", bootStart);
+  const bootBlock = styles.slice(bootStart, bootEnd);
+  assert.match(
+    bootBlock,
+    /\.boot-corridor__kerb-edge\s*\{[^}]*stroke:\s*var\(--accent-primary\)/s,
+  );
+  assert.doesNotMatch(bootBlock, /#[0-9A-Fa-f]{6}\b/);
 });
 
 test("Explore the builds keeps its accessible destination and gains only a moderate radius", () => {

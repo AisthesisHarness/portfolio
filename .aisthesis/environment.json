@@ -1,0 +1,14 @@
+{
+  "apt": [
+    "chromium"
+  ],
+  "programs": [
+    "chromium"
+  ],
+  "conda": {
+    "channels": [
+      "conda-forge"
+    ],
+    "packages": []
+  }
+}
