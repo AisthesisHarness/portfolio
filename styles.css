@@ -230,6 +230,7 @@ body.is-ready .boot {
 
 .boot-corridor__road {
   fill: var(--ink-soft);
+  fill-opacity: 0.58;
   stroke: var(--grey);
   stroke-width: 2;
 }
