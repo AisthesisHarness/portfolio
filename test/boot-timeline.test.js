@@ -1,5 +1,9 @@
 const assert = require("node:assert/strict");
+const { readFileSync } = require("node:fs");
+const { join } = require("node:path");
+const { pathToFileURL } = require("node:url");
 const test = require("node:test");
+const vm = require("node:vm");
 
 const { createBootTimeline } = require("../boot-timeline.js");
 
@@ -37,6 +41,23 @@ test("1: createBootTimeline returns the documented shape for every mode with no 
     const state = timeline.stateAt(0);
     assert.deepEqual(Object.keys(state).sort(), STATE_KEYS);
   });
+});
+
+test("1: the same file supports a classic-script global and ESM import", async () => {
+  const modulePath = join(__dirname, "..", "boot-timeline.js");
+  const source = readFileSync(modulePath, "utf8");
+  const browserGlobal = {};
+
+  vm.runInNewContext(source, { window: browserGlobal });
+  assert.equal(typeof browserGlobal.createBootTimeline, "function");
+  assert.deepEqual(
+    Array.from(browserGlobal.createBootTimeline({ mode: "full" }).words),
+    EXPECTED_WORDS,
+  );
+
+  const esmModule = await import(pathToFileURL(modulePath).href);
+  assert.equal(typeof esmModule.createBootTimeline, "function");
+  assert.equal(esmModule.createBootTimeline({ mode: "skip" }).stateAt(0).complete, true);
 });
 
 // Criterion 2: word list is exact and in order for full and simple modes.
@@ -118,15 +139,16 @@ test("5: phase transitions align exactly with word transitions", () => {
   assert.equal(firstCar, firstWordIndex2);
 });
 
-// Criterion 6: percent, depth, and carProgress never decrease across a forward sweep;
-// lampsLit never decreases.
-test("6: percent, depth, carProgress, and lampsLit never decrease across a forward sweep", () => {
+// Criterion 6: overall progress, percent, depth, carProgress, and lampsLit never decrease
+// across a forward sweep.
+test("6: progress, percent, depth, carProgress, and lampsLit never decrease", () => {
   const timeline = createBootTimeline({ mode: "full" });
   const states = sweep(timeline, 5);
 
   for (let i = 1; i < states.length; i += 1) {
     const prev = states[i - 1].state;
     const curr = states[i].state;
+    assert.ok(curr.progress >= prev.progress, "progress must not decrease");
     assert.ok(curr.percent >= prev.percent, "percent must not decrease");
     assert.ok(curr.depth >= prev.depth, "depth must not decrease");
     assert.ok(curr.carProgress >= prev.carProgress, "carProgress must not decrease");
